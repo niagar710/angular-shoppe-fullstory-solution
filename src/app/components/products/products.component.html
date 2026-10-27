@@ -1,0 +1,59 @@
+<mat-grid-list
+  class="product-list"
+  cols="{{ numColumns }}"
+  [gutterSize]="'1px'"
+>
+  <mat-grid-tile *ngFor="let product of products">
+    <mat-card class="product-card" class="mat-elevation-z8">
+      <div
+        class="product-image"
+        [style.backgroundImage]="'url(' + product.image + ')'"
+      ></div>
+      <mat-card-header class="product-header">
+        <mat-card-title>{{ product.title }}</mat-card-title>
+        <mat-card-subtitle
+          ><b>${{ product.price }}</b
+          ><small> / </small>{{ product.unit }}</mat-card-subtitle
+        >
+      </mat-card-header>
+      <mat-card-content>
+        <p>{{ product.description }}</p>
+      </mat-card-content>
+      <mat-card-actions fxLayout="row" fxLayoutAlign="end center">
+        <ng-container
+          *ngIf="getCartQuantity(product.id) === 0; else quantityControls"
+        >
+          <button
+            mat-stroked-button
+            color="primary"
+            (click)="addToCart(product)"
+          >
+            Add to Cart
+          </button>
+        </ng-container>
+
+        <ng-template #quantityControls>
+          <button
+            mat-icon-button
+            color="primary"
+            aria-label="Decrease quantity"
+            (click)="decreaseQuantity(product)"
+          >
+            <mat-icon>remove</mat-icon>
+          </button>
+
+          <span>{{ getCartQuantity(product.id) }}</span>
+
+          <button
+            mat-icon-button
+            color="primary"
+            aria-label="Increase quantity"
+            (click)="increaseQuantity(product)"
+          >
+            <mat-icon>add</mat-icon>
+          </button>
+        </ng-template>
+      </mat-card-actions>
+    </mat-card>
+  </mat-grid-tile>
+</mat-grid-list>
